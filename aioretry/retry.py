@@ -59,7 +59,13 @@ BeforeRetry = Callable[[RetryInfo], Optional[Awaitable[None]]]
 ParamRetryPolicy = Union[RetryPolicy, str]
 ParamBeforeRetry = Union[BeforeRetry, str]
 
-TargetFunction = Callable[..., Awaitable]
+from typing import Callable, ParamSpec, Concatenate, TypeVar
+
+Param = ParamSpec("Param")
+RetType = TypeVar("RetType")
+OriginalFunc = Callable[Param, RetType]
+TargetFunction = Callable[Concatenate[Param, str], RetType]
+
 Exceptions = Tuple[Exception, ...]
 ExceptionsOrException = Union[Exceptions, Exception]
 
