@@ -10,6 +10,7 @@ from typing import (
 import warnings
 import inspect
 import asyncio
+from functools import wraps
 from datetime import datetime
 
 
@@ -158,8 +159,9 @@ def retry(
         async def coro_func():
             ...
     """
-
+    
     def wrapper(fn: TargetFunction) -> TargetFunction:
+        @wraps(fn)
         async def wrapped(*args, **kwargs):
             return await perform(
                 fn,
